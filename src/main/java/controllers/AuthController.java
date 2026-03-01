@@ -1,12 +1,13 @@
 package controllers;
-
 import Service.AuthService;
+import jakarta.json.Json;
+import jakarta.json.JsonObject;
+import jakarta.json.JsonReader;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -25,9 +26,13 @@ public class AuthController extends HttpServlet {
 
         if ("/register".equals(path)) {
 
-            String username = req.getParameter("username");
-            String password = req.getParameter("password");
-            String fullname = req.getParameter("fullname");
+            JsonReader reader = Json.createReader(req.getInputStream());
+            JsonObject json = reader.readObject();
+            reader.close();
+
+            String username = json.getString("username");
+            String password = json.getString("password");
+            String fullname = json.getString("fullname");
 
             boolean success = authService.register(username, password, fullname);
 
@@ -40,8 +45,19 @@ public class AuthController extends HttpServlet {
 
         } else if ("/login".equals(path)) {
 
-            String username = req.getParameter("username");
-            String password = req.getParameter("password");
+            JsonReader reader = Json.createReader(req.getInputStream());
+            JsonObject json = reader.readObject();
+            reader.close();
+
+            String username = json.getString("username");
+            String password = json.getString("password");
+
+
+            if (username == null || password == null) {
+                resp.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                out.print("{\"message\":\"Username and password required\"}");
+                return;
+            }
 
             String token = authService.login(username, password);
 
@@ -52,5 +68,6 @@ public class AuthController extends HttpServlet {
                 out.print("{\"message\":\"Invalid credentials\"}");
             }
         }
+
     }
 }
