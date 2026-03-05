@@ -1,6 +1,8 @@
 package dao;
 
+import jakarta.json.Json;
 import jakarta.json.JsonArray;
+import jakarta.json.JsonArrayBuilder;
 import jakarta.json.JsonObject;
 import model.Rooms.IRoom;
 import model.Rooms.Reservation_room;
@@ -91,15 +93,98 @@ public class ReservationDAO {
         return availableRooms;
     }
 
-    public Boolean getAllReservationDetails() {
+    public JsonArray getAllReservationDetails(){
+        String sql = "select * from reservations r join guests g on r.guest_id = g.guest_id;";
+
+        try (PreparedStatement ps = Dbconnection.getConnection().prepareStatement(sql)) {
+
+            ResultSet rs = ps.executeQuery();
+
+            JsonArrayBuilder allReservations = Json.createArrayBuilder();
+            while (rs.next()){
+                JsonObject reservationDetails = Json.createObjectBuilder()
+                        .add("reservationNumber", rs.getString("reservation_number"))
+                        .add("checkIn", rs.getString("check_in"))
+                        .add("checkOut", rs.getString("check_out"))
+                        .add("name", rs.getString("name"))
+                        .add("address", rs.getString("address"))
+                        .add("contactNo", rs.getString("contact_number"))
+                        .build();
+
+                allReservations.add(reservationDetails);
+            }
+            JsonArray allReservationsList = allReservations.build();
+            return allReservationsList;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
-    public JsonObject getReservationDetails(long l) {
+    public JsonObject getReservationDetails(Long resNo){
+        String sql = "select * from reservations r join guests g on r.guest_id = g.guest_id where r.reservation_number = ?;";
+
+        try (PreparedStatement ps = Dbconnection.getConnection().prepareStatement(sql)) {
+
+            ps.setLong(1, resNo);
+
+
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()){
+                JsonObject reservationDetails = Json.createObjectBuilder()
+                        .add("reservationNumber", rs.getString("reservation_number"))
+                        .add("checkIn", rs.getString("check_in"))
+                        .add("checkOut", rs.getString("check_out"))
+                        .add("name", rs.getString("name"))
+                        .add("address", rs.getString("address"))
+                        .add("contactNo", rs.getString("contact_number"))
+                        .build();
+
+                return reservationDetails;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return null;
     }
 
-    public JsonArray getRoomDetailsByReservation(long l) {
-            return null;
+    public JsonArray getRoomDetailsByReservation(Long resNo){
+        String sql = "select * from reservation_room join rooms r on r.room_number = reservation_room.room_number where reservation_number= ?;";
+
+        try (PreparedStatement ps = Dbconnection.getConnection().prepareStatement(sql)) {
+
+            ps.setLong(1, resNo);
+
+
+            ResultSet rs = ps.executeQuery();
+
+            JsonArrayBuilder roomsBuilder = Json.createArrayBuilder();
+
+            while (rs.next()) {
+                JsonObject roomdetails = Json.createObjectBuilder()
+                        .add("roomNumber", rs.getInt("room_number"))
+                        .add("roomType", rs.getString("room_type"))
+                        .build();
+
+                roomsBuilder.add(roomdetails);
+            }
+
+            JsonArray rooms = roomsBuilder.build();
+
+            return rooms;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
     }
-}       
+    }
+
+
+
+
+
+
