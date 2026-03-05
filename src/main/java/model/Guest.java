@@ -2,22 +2,28 @@ package model;
 
 
 
-public class guest {
+public class Guest {
     private int guestId;
     private String name;
     private String address;
     private String contactNumber;
 
     // Default Constructor
-    public guest() {
+    public Guest() {
     }
 
     // Parameterized Constructor
-    public guest(int guestId, String name, String address, String contactNumber) {
+    public Guest(int guestId, String name, String address, String contactNumber) {
         this.guestId = guestId;
         this.name = name;
         this.address = address;
         this.contactNumber = contactNumber;
+    }
+
+    public Guest(String name, String contactNumber, String address) {
+        this.name = name;
+        this.contactNumber = contactNumber;
+        this.address = address;
     }
 
     public int getGuestId() {

@@ -6,8 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class GuestDAO {
-    public Long saveGuest(Guest guest) {
-        String sql = "INSERT INTO guest (name, address, contactNo) VALUES (?, ?, ?);";
+    public Integer saveGuest(Guest guest) {
+        String sql = "INSERT INTO guests (name, address, contact_number) VALUES (?, ?, ?);";
 
         try (PreparedStatement ps = Dbconnection.getConnection().prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, guest.getName());
@@ -17,7 +17,7 @@ public class GuestDAO {
             if(affectedRows > 0){
                 try (ResultSet rs = ps.getGeneratedKeys()) {
                     if (rs.next()) {
-                        return rs.getLong(1); // return generated guest id
+                        return rs.getInt(1); // return generated guest id
                     }
                 }
             }
