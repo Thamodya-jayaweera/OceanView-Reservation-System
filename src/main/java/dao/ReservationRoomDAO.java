@@ -6,16 +6,13 @@ import utils.Dbconnection;
 import java.sql.PreparedStatement;
 
 public class ReservationRoomDAO {
-    public ReservationRoomDAO(Long reservationId, Long roomId, String booked) {
 
-    }
-
-    public boolean save(Reservation_room reservations2Rooms) {
-        String sql = "INSERT INTO reservation_room (reservationNumber, roomNumber, status) VALUES ( ?, ?, ?);";
+    public boolean save(Reservation_room reservation_room) {
+        String sql = "INSERT INTO reservation_room (reservation_number, room_number, status) VALUES ( ?, ?, ?);";
         try (PreparedStatement ps = Dbconnection.getConnection().prepareStatement(sql)) {
-            ps.setLong(1, reservations2Rooms.getReservationNumber());
-            ps.setInt(2, reservations2Rooms.getRoomNumber());
-            ps.setString(3, reservations2Rooms.getStatus());
+            ps.setString(1, reservation_room.getReservationNumber());
+            ps.setInt(2, reservation_room.getRoomNumber());
+            ps.setString(3, reservation_room.getStatus());
             return ps.executeUpdate() > 0;
         } catch (Exception e) {
             e.printStackTrace();
