@@ -1,16 +1,31 @@
 package model.Rooms;
 
-public class SingleRoom implements  IRoom{
+public class SingleRoom implements IRoom{
 
 
     @Override
+    public String getRoomNumber() {
+        return "";
+    }
+
+    @Override
+    public void setRoomNumber(String roomNumber) {
+
+    }
+
+    @Override
     public double getRoomPrice() {
-        return 10000;
+        return 15000;
     }
 
     @Override
     public double calculatePrice(int days) {
         return days*getRoomPrice();
+    }
+
+    @Override
+    public RoomType getRoomType() {
+        return null;
     }
 
     @Override

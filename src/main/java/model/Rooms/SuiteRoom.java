@@ -4,13 +4,28 @@ public class SuiteRoom implements IRoom{
 
 
     @Override
+    public String getRoomNumber() {
+        return "";
+    }
+
+    @Override
+    public void setRoomNumber(String roomNumber) {
+
+    }
+
+    @Override
     public double getRoomPrice() {
-        return 250000;
+        return 30000;
     }
 
     @Override
     public double calculatePrice(int days) {
         return days*getRoomPrice();
+    }
+
+    @Override
+    public RoomType getRoomType() {
+        return null;
     }
 
     @Override

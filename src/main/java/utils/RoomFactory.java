@@ -3,22 +3,26 @@ package utils;
 import model.Rooms.*;
 
 public class RoomFactory {
-    public static IRoom createRoom(RoomType type) {
+        public static IRoom createRoom(String roomType){
+            if (roomType == null) {
+                throw new IllegalArgumentException("Room type cannot be null");
+            }
 
-        switch (type) {
-            case SINGLE:
+            roomType = roomType.toUpperCase();
+
+            if (roomType.equals(RoomType.SINGLE.toString())){
                 return new SingleRoom();
-            case DOUBLE:
+            }else if (roomType.equals(RoomType.DOUBLE.toString())){
                 return new DoubleRoom();
-            case TRIPLE:
+            }else if (roomType.equals(RoomType.TRIPLE.toString())){
                 return new TripleRoom();
-            case SUITE:
+            }else if (roomType.equals(RoomType.SUITE.toString())){
                 return new SuiteRoom();
-            default:
-                throw new IllegalArgumentException("Invalid Room Type");
+            }
+            return null;
         }
+
+
+
+
     }
-
-
-
-}
