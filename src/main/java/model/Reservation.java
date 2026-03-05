@@ -3,21 +3,21 @@ package model;
 import model.Rooms.IRoom;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class Reservation {
-
-    private String reservationNumber;
+    private String reservationNumber; // VARCHAR(20) match
     private int guestId;
+    private LocalDateTime checkIn;
+    private LocalDateTime checkOut;
 
-    private LocalDate checkIn;
-    private LocalDate checkOut;
-
-    private List<IRoom> rooms;
-
-    // ===============================
-    // GETTERS & SETTERS
-    // ===============================
+    public Reservation(String reservationNumber, int guestId, LocalDateTime checkIn, LocalDateTime checkOut) {
+        this.reservationNumber = reservationNumber;
+        this.guestId = guestId;
+        this.checkIn = checkIn;
+        this.checkOut = checkOut;
+    }
 
     public String getReservationNumber() {
         return reservationNumber;
@@ -35,28 +35,19 @@ public class Reservation {
         this.guestId = guestId;
     }
 
-
-    public LocalDate getCheckIn() {
+    public LocalDateTime getCheckIn() {
         return checkIn;
     }
 
-    public void setCheckIn(LocalDate checkIn) {
+    public void setCheckIn(LocalDateTime checkIn) {
         this.checkIn = checkIn;
     }
 
-    public LocalDate getCheckOut() {
+    public LocalDateTime getCheckOut() {
         return checkOut;
     }
 
-    public void setCheckOut(LocalDate checkOut) {
+    public void setCheckOut(LocalDateTime checkOut) {
         this.checkOut = checkOut;
-    }
-
-    public List<IRoom> getRooms() {
-        return rooms;
-    }
-
-    public void setRooms(List<IRoom> rooms) {
-        this.rooms = rooms;
     }
 }
