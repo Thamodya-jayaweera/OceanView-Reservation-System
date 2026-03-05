@@ -69,5 +69,19 @@
   </dependencies>
   <build>
     <finalName>OceanViewResortProject</finalName>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.11.0</version> <!-- Latest plugin -->
+          <configuration>
+            <source>22</source>   <!-- Java 22 -->
+            <target>22</target>   <!-- Java 22 -->
+            <compilerArgs>
+              <arg>--enable-preview</arg>
+            </compilerArgs>
+          </configuration>
+        </plugin>
+      </plugins>
   </build>
 </project>
