@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 
-@WebServlet("/rooms/")
+@WebServlet("/rooms")
 public class RoomsController extends HttpServlet {
     ReservationService reservationService = new ReservationService();
     @Override
